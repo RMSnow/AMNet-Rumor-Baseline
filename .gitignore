@@ -1,0 +1,7 @@
+.idea
+.DS*
+.ipynb*
+att_maps/rumor
+att_maps/nonrumor
+data/*.csv
+data/*.pkl
