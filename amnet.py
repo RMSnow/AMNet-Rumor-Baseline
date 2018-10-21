@@ -184,9 +184,7 @@ class AMNet:
         self.lr = 0
         self.optimizer = None
 
-        # TEST
         self.data_dir = 'data'
-        # self.data_dir = '/media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Data'
 
         self.show_delay = 0
 
@@ -410,6 +408,9 @@ class AMNet:
             loss = reg_loss + mem_loc_loss
             if att_loss is not None:
                 loss += att_loss
+
+            # TODO: Visualization
+
 
             loss.backward()
             self.optimizer.step()

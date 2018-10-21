@@ -5,3 +5,5 @@ att_maps/rumor
 att_maps/nonrumor
 data/*.csv
 data/*.pkl
+playground
+images_sample/*.jpg
