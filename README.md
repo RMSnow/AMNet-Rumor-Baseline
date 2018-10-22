@@ -11,7 +11,7 @@ at [CVPR 2018](http://cvpr2018.thecvf.com/).
 /home/qipeng/PicMemorability/AMNet-Rumor
 
 Train Cmd
-python3.5 main.py --train-batch-size 222 --test-batch-size 222 --cnn ResNet50FC --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/AMNet-Rumor/lamem/ --train-split train_1 --val-split val_1
+python3.5 main.py --train-batch-size 256 --test-batch-size 256 --cnn ResNet50FC --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/AMNet-Rumor/lamem/ --train-split train_0 --val-split val_0
 
 Test Cmd
 python3.5 main.py --test --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/AMNet-Rumor/lamem/ --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --test-split 'test_*'

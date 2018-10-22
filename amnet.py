@@ -186,20 +186,19 @@ class AMNet:
         self.lr = 0
         self.optimizer = None
 
-        self.data_dir = 'data'
+        # Todo: 避免服务器硬盘空间不够
+        # self.data_dir = 'data'
+        self.data_dir = '/media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Train-Output'
 
         self.show_delay = 0
 
         self.test_transform = None
         self.train_transform = None
 
-        # TODO: Visualization
+        # TODO: Visualization Initialization
         self.vis = visdom.Visdom()
-        self.win = self.vis.line(
-            X=np.array([0]),
-            Y=np.array([0]),
-            opts=dict(xlabel='Epoch', ylabel='Loss')
-        )
+        self.win1 = None
+        self.win2 = None
 
         return
 
@@ -424,12 +423,19 @@ class AMNet:
             self.optimizer.step()
 
             # TODO: Visualization, Epoch-Batch
-            # print('\n=== epoch ' + str(epoch) + ", batch_idx " + str(batch_idx) + ' ===\n')
-            # print('\n\tLoss: ' + str(loss.data[0]) + '\n')
             batch_size = self.hps.train_batch_size
+            train_sample_size = len(train_loader.dataset.data)
+            batch_idx_max = train_sample_size / batch_size + 1
 
-            self.vis.line(X=np.array([epoch * batch_idx]), Y=np.array([loss.data[0]]), name='train_loss',
-                          update='append', win=self.win)
+            line_name = 'train_loss'
+            if self.win1 is None:
+                self.win1 = self.vis.line(X=np.array([epoch - 1 + batch_idx / batch_idx_max]),
+                                          Y=np.array([loss.data[0]]), name=line_name,
+                                          opts=dict(xlabel='Epoch', ylabel='Loss', title='Expt 1: Training',
+                                                    showlegend=True))
+            else:
+                self.vis.line(X=np.array([epoch - 1 + batch_idx / batch_idx_max]), Y=np.array([loss.data[0]]),
+                              name=line_name, update='append', win=self.win1, opts=dict(showlegend=True))
 
             if batch_idx % 10 == 0:
                 took = time.time() - batch_time
@@ -465,6 +471,20 @@ class AMNet:
                           sample=(batch_idx * len(data)),
                           loss=loss.cpu().data.numpy()[0], lr=params.lr, src=rc)
 
+        # TODO: Visualization - Evaluation of Train
+        line_rc_name = 'train_rc'
+        line_mse_name = 'train_mse'
+        if self.win2 is None:
+            self.win2 = self.vis.line(X=np.array([epoch]), Y=np.array([rc]), name=line_rc_name,
+                                      opts=dict(xlabel='Epoch', title='Expt 1: Evaluation', showlegend=True))
+            self.vis.line(X=np.array([epoch]), Y=np.array([mse]), name=line_mse_name, win=self.win2, update='append',
+                          opts=dict(showlegend=True))
+        else:
+            self.vis.line(X=np.array([epoch]), Y=np.array([rc]), name=line_rc_name, win=self.win2, update='append',
+                          opts=dict(showlegend=True))
+            self.vis.line(X=np.array([epoch]), Y=np.array([mse]), name=line_mse_name, win=self.win2, update='append',
+                          opts=dict(showlegend=True))
+
         # print("--------------------------------------------------------------------")
         return
 
@@ -489,6 +509,17 @@ class AMNet:
             rc, mse, test_loss = self.eval_model(test_data_loader)
             self.logger.write(train=False, epoch=epoch, epoch_samples=None, sample=None, loss=test_loss, lr=None,
                               src=rc, mse=mse)
+
+            # TODO: Visualization - Validation
+            line_loss_name = 'val_loss'
+            self.vis.line(X=np.array([epoch]), Y=np.array([test_loss]), win=self.win1, update='append',
+                          name=line_loss_name, opts=dict(showlegend=True))
+            line_rc_name = 'val_rc'
+            line_mse_name = 'val_mse'
+            self.vis.line(X=np.array([epoch]), Y=np.array([rc]), win=self.win2, update='append',
+                          name=line_rc_name, opts=dict(showlegend=True))
+            self.vis.line(X=np.array([epoch]), Y=np.array([mse]), win=self.win2, update='append',
+                          name=line_mse_name, opts=dict(showlegend=True))
 
         return
 
