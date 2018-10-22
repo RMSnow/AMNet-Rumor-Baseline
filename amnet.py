@@ -23,6 +23,8 @@ from config import *
 from utils import *
 from image_dataset import *
 
+import visdom
+
 
 # ------------------------------------------------------------------------------------------
 
@@ -190,6 +192,15 @@ class AMNet:
 
         self.test_transform = None
         self.train_transform = None
+
+        # TODO: Visualization
+        self.vis = visdom.Visdom()
+        self.win = self.vis.line(
+            X=np.array([0]),
+            Y=np.array([0]),
+            opts=dict(xlabel='Epoch', ylabel='Loss')
+        )
+
         return
 
     def init(self, hps):
@@ -409,11 +420,16 @@ class AMNet:
             if att_loss is not None:
                 loss += att_loss
 
-            # TODO: Visualization
-
-
             loss.backward()
             self.optimizer.step()
+
+            # TODO: Visualization, Epoch-Batch
+            # print('\n=== epoch ' + str(epoch) + ", batch_idx " + str(batch_idx) + ' ===\n')
+            # print('\n\tLoss: ' + str(loss.data[0]) + '\n')
+            batch_size = self.hps.train_batch_size
+
+            self.vis.line(X=np.array([epoch * batch_idx]), Y=np.array([loss.data[0]]), name='train_loss',
+                          update='append', win=self.win)
 
             if batch_idx % 10 == 0:
                 took = time.time() - batch_time

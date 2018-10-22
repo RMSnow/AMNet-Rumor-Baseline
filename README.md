@@ -11,16 +11,16 @@ at [CVPR 2018](http://cvpr2018.thecvf.com/).
 /home/qipeng/PicMemorability/AMNet-Rumor
 
 Train Cmd
-python3.5 main.py --train-batch-size 222 --test-batch-size 222 --cnn ResNet50FC --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/pre_handle_add_label/lamem/ --train-split train_1 --val-split val_1
+python3.5 main.py --train-batch-size 222 --test-batch-size 222 --cnn ResNet50FC --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/AMNet-Rumor/lamem/ --train-split train_1 --val-split val_1
 
 Test Cmd
-python3.5 main.py --test --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/pre_handle_add_label/lamem/ --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --test-split 'test_*'
+python3.5 main.py --test --dataset lamem --dataset-root /media/Data/qipeng/modified_complete_images/AMNet-Rumor/lamem/ --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --test-split 'test_*'
 
 Predict Cmd - Rumor / Nonrumor
-python3.5 main.py --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --eval-images /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Predict/images/rumor --csv-out memorabilities-rumor.txt --att-maps-out /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Predict/att_maps/rumor
-python3.5 main.py --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --eval-images /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Predict/images/nonrumor --csv-out memorabilities-nonrumor.txt --att-maps-out /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Predict/att_maps/nonrumor
+python3.5 main.py --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --eval-images /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Predict/images/rumor --csv-out memorabilities-rumor.txt --att-maps-out /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Predict/att_maps/rumor
+python3.5 main.py --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --eval-images /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Predict/images/nonrumor --csv-out memorabilities-nonrumor.txt --att-maps-out /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Predict/att_maps/nonrumor
 
 Predict Cmd - Sample
-python3.5 main.py --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --eval-images /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Predict/images/sample --csv-out memorabilities-sample.txt --att-maps-out /media/Data/qipeng/modified_complete_images/pre_handle_add_label/AMNet-Predict/att_maps/sample
+python3.5 main.py --cnn ResNet50FC --model-weights /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Train-Output/lamem_ResNet50FC_lstm3_train_1/weights_54.pkl --eval-images /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Predict/images/sample --csv-out memorabilities-sample.txt --att-maps-out /media/Data/qipeng/modified_complete_images/AMNet-Rumor/AMNet-Predict/att_maps/sample
 
 # Client Path
