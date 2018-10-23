@@ -7,3 +7,4 @@ data/*.csv
 data/*.pkl
 playground
 images_sample/*.jpg
+__py*
